@@ -6,13 +6,13 @@ arquivo_txt = 'planejamento_semanal.txt'
 # Cabeçalho das tarefas
 tarefas = {
     '1': 'Cap ficha sangrenta e dominação', 
-    '2': 'Comprar itens dominação e ficha sangrenta', 
-    '3': 'Missões mundiais, mundiais de baú, limpar pouso santo, teatro e máquina',
+    '2': 'Comprar itens de dominação e ficha sangrenta', 
+    '3': 'Missões mundiais, mundiais de baú, missões de profissão nos 2 chars, limpar pouso santo, teatro e máquina',
     '4': 'Todas as quests mundiais',
     '5': 'Raid normal caso necessite upgradar item de pvp',
-    '6': 'Dar uma farmada para upar profissão',
+    '6': 'Dar uma farmada para upar profissão nos 2 chars',
     '7': 'Delves',
-    '8': 'Pvp'
+    '8': 'Pvp e farmar honra para engastes'
 }
 
 # Função para salvar o progresso atual no arquivo .txt
