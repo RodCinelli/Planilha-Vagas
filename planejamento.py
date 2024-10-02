@@ -15,6 +15,22 @@ tarefas = {
     '8': 'Pvp e farmar honra para engastes'
 }
 
+# Função para carregar o progresso atual do arquivo .txt
+def carregar_progresso():
+    respostas = {str(i): "" for i in range(1, 9)}  # Inicializa respostas vazias
+    try:
+        with open(arquivo_txt, 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+            for line in lines:
+                if " - " in line:
+                    chave, tarefa, status = line.strip().split(' - ', 2)
+                    if chave in respostas:
+                        respostas[chave] = status
+    except FileNotFoundError:
+        pass  # Arquivo ainda não existe, não precisa fazer nada
+
+    return respostas
+
 # Função para salvar o progresso atual no arquivo .txt
 def salvar_progresso(respostas, finalizada=False):
     # Sempre sobrescreve o arquivo para evitar múltiplos registros
@@ -31,20 +47,19 @@ def salvar_progresso(respostas, finalizada=False):
 
 # Função para registrar ou atualizar tarefas
 def registrar_tarefas():
-    # Sempre inicia com respostas vazias
-    respostas = {str(i): "" for i in range(1, 9)}
+    # Carregar progresso existente
+    respostas = carregar_progresso()
     todas_preenchidas = False
 
     while not todas_preenchidas:
-        print("\nTarefas disponíveis para o Planejamento Semanal:\n")  # Uma quebra de linha após o título
+        print("\nTarefas disponíveis para o Planejamento Semanal:\n")
         for chave, tarefa in tarefas.items():
             status = respostas.get(chave, "Não preenchido")
             print(f"{chave} - {tarefa} - {status}")
         
-        # Uma linha entre a lista de tarefas e a próxima entrada
-        print()  # Adiciona uma linha em branco
+        print()
         escolha = input("Escolha a tarefa para preencher (1-8) ou '0' para sair: ").strip()
-        print()  # Adiciona uma linha em branco após a escolha
+        print()
         if escolha == '0':
             # Salva o progresso atual para retomada posterior
             salvar_progresso(respostas)
