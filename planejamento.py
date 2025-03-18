@@ -13,11 +13,13 @@ for pasta in [pasta_planejamento, pasta_diario, pasta_semanal]:
 
 # Cabeçalho das tarefas
 tarefas = {
-    '1': 'Aplicar em vagas no LinkedIn para estágio em engenharia de software', 
-    '2': 'Aplicar em vagas no LinkedIn para estágio e desenvolvedor full stack jr', 
-    '3': 'Aplicar em vagas no Infojobs',
-    '4': 'Aplicar em vagas no Vagas.com',
-    '5': 'Aplicar em vagas no Programathor',
+    '1': 'Aplicar em vagas no LinkedIn para estágio e júnior em desenvolvedor full stack', 
+    '2': 'Aplicar em vagas no LinkedIn para estágio e júnior em desenvolvedor python', 
+    '3': 'Aplicar em vagas no LinkedIn para estágio e júnior em inteligência artificial',
+    '4': 'Aplicar em vagas no LinkedIn para estágio em engenheiro de software',
+    '5': 'Aplicar em vagas no Infojobs',
+    '6': 'Aplicar em vagas no Vagas.com',
+    '7': 'Aplicar em vagas no Programathor',
 }
 
 # Função para obter o nome do arquivo diário baseado na data
