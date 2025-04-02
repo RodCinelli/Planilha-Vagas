@@ -1,10 +1,12 @@
+import tkinter as tk
+from tkinter import messagebox, ttk
 from datetime import datetime, timedelta
 import os
 
 # Estrutura de pastas
-pasta_planejamento = 'planejamento'
-pasta_diario = os.path.join(pasta_planejamento, 'diario')
-pasta_semanal = os.path.join(pasta_planejamento, 'semanal')
+pasta_planejamento = "planejamento"
+pasta_diario = os.path.join(pasta_planejamento, "diario")
+pasta_semanal = os.path.join(pasta_planejamento, "semanal")
 
 # Criar pastas se não existirem
 for pasta in [pasta_planejamento, pasta_diario, pasta_semanal]:
@@ -13,209 +15,294 @@ for pasta in [pasta_planejamento, pasta_diario, pasta_semanal]:
 
 # Cabeçalho das tarefas
 tarefas = {
-    '1': 'Aplicar em vagas no LinkedIn para estágio e júnior em desenvolvedor full stack', 
-    '2': 'Aplicar em vagas no LinkedIn para estágio e júnior em desenvolvedor python', 
-    '3': 'Aplicar em vagas no LinkedIn para estágio e júnior em inteligência artificial',
-    '4': 'Aplicar em vagas no LinkedIn para estágio em engenheiro de software',
-    '5': 'Aplicar em vagas no Infojobs',
-    '6': 'Aplicar em vagas no Vagas.com',
-    '7': 'Aplicar em vagas no Programathor',
+    "1": "Aplicar em vagas no LinkedIn para estágio e júnior em desenvolvedor full stack",
+    "2": "Aplicar em vagas no LinkedIn para estágio e júnior em desenvolvedor python",
+    "3": "Aplicar em vagas no LinkedIn para estágio e júnior em inteligência artificial",
+    "4": "Aplicar em vagas no LinkedIn para estágio em engenheiro de software",
+    "5": "Aplicar em vagas no Infojobs",
+    "6": "Aplicar em vagas no Vagas.com",
+    "7": "Aplicar em vagas no Programathor",
 }
 
-# Função para obter o nome do arquivo diário baseado na data
+
+# Funções de gerenciamento de arquivos (mantidas sem alterações)
 def obter_arquivo_diario(data=None):
     if data is None:
         data = datetime.now()
-    data_str = data.strftime('%Y-%m-%d')
-    dia_semana = data.strftime('%A')
-    return os.path.join(pasta_diario, f'planejamento_{data_str}_{dia_semana}.txt')
+    data_str = data.strftime("%Y-%m-%d")
+    dia_semana = data.strftime("%A")
+    return os.path.join(pasta_diario, f"planejamento_{data_str}_{dia_semana}.txt")
 
-# Função para obter o nome do arquivo do relatório semanal
+
 def obter_arquivo_semanal():
     hoje = datetime.now()
-    # Encontrar o início da semana (segunda-feira)
     inicio_semana = hoje - timedelta(days=hoje.weekday())
     fim_semana = inicio_semana + timedelta(days=6)
     periodo = f"{inicio_semana.strftime('%Y-%m-%d')}_{fim_semana.strftime('%Y-%m-%d')}"
-    return os.path.join(pasta_semanal, f'relatorio_semanal_{periodo}.txt')
+    return os.path.join(pasta_semanal, f"relatorio_semanal_{periodo}.txt")
 
-# Função para carregar o progresso atual do arquivo .txt diário
+
 def carregar_progresso(arquivo_txt):
-    respostas = {str(i): "" for i in range(1, 6)}  # Inicializa respostas vazias
+    respostas = {str(i): "" for i in range(1, 8)}
     try:
-        with open(arquivo_txt, 'r', encoding='utf-8') as file:
+        with open(arquivo_txt, "r", encoding="utf-8") as file:
             lines = file.readlines()
             for line in lines:
                 if " - " in line:
-                    partes = line.strip().split(' - ', 2)
+                    partes = line.strip().split(" - ", 2)
                     if len(partes) == 3:
                         chave, tarefa, status = partes
                         if chave in respostas:
                             respostas[chave] = status
     except FileNotFoundError:
-        pass  # Arquivo ainda não existe, não precisa fazer nada
-
+        pass
     return respostas
 
-# Função para salvar o progresso atual no arquivo .txt diário
+
 def salvar_progresso(arquivo_txt, respostas, finalizada=False):
-    # Sempre sobrescreve o arquivo para evitar múltiplos registros
-    with open(arquivo_txt, 'w', encoding='utf-8') as file:
-        data_atual = datetime.now().strftime('%d/%m/%Y')
-        dia_semana = datetime.now().strftime('%A')
-        
+    with open(arquivo_txt, "w", encoding="utf-8") as file:
+        data_atual = datetime.now().strftime("%d/%m/%Y")
+        dia_semana = datetime.now().strftime("%A")
         if finalizada:
             file.write(f"Planejamento Diário - {dia_semana} ({data_atual})\n\n")
         else:
-            file.write(f"Planejamento Diário (Progresso Parcial) - {dia_semana} ({data_atual})\n\n")
-        
+            file.write(
+                f"Planejamento Diário (Progresso Parcial) - {dia_semana} ({data_atual})\n\n"
+            )
         for chave, resposta in respostas.items():
-            if chave in tarefas and resposta:  # Salva apenas as tarefas preenchidas
+            if chave in tarefas and resposta:
                 file.write(f"{chave} - {tarefas[chave]} - {resposta}\n")
-        file.write('\n')
+        file.write("\n")
 
-# Função para registrar ou atualizar tarefas diárias
-def registrar_tarefas_diarias():
-    arquivo_txt = obter_arquivo_diario()
-    
-    # Carregar progresso existente
-    respostas = carregar_progresso(arquivo_txt)
-    todas_preenchidas = False
 
-    while not todas_preenchidas:
-        print(f"\nTarefas disponíveis para o Planejamento Diário ({datetime.now().strftime('%d/%m/%Y')}):\n")
-        for chave, tarefa in tarefas.items():
-            status = respostas.get(chave, "Não preenchido")
-            print(f"{chave} - {tarefa} - {status}")
-        
-        print()
-        escolha = input("Escolha a tarefa para preencher (1-5) ou '0' para sair: ").strip()
-        print()
-        if escolha == '0':
-            # Salva o progresso atual para retomada posterior
-            salvar_progresso(arquivo_txt, respostas)
-            print("Progresso parcial salvo. Você pode continuar mais tarde.\n")
-            break
-        elif escolha in tarefas:
-            status = input(f"{tarefas[escolha]} (Sim/Não): ").strip().capitalize()
-            while status not in ['Sim', 'Não']:
-                print("\nResposta inválida! Digite 'Sim' ou 'Não'.\n")
-                status = input(f"{tarefas[escolha]} (Sim/Não): ").strip().capitalize()
-            respostas[escolha] = status
-
-            # Salvar o progresso incrementalmente
-            salvar_progresso(arquivo_txt, respostas)
-
-            # Verificar se todas as tarefas foram preenchidas
-            todas_preenchidas = all(respostas.get(k, "") for k in tarefas.keys())
-            if todas_preenchidas:
-                print("\nTodas as tarefas do Planejamento Diário foram preenchidas!")
-                # Salva o resumo do planejamento diário e apaga os registros intermediários
-                salvar_progresso(arquivo_txt, respostas, finalizada=True)
-                print("\nPlanejamento diário salvo no arquivo.\n")
-                
-                # Verificar se é domingo para gerar o relatório semanal
-                if datetime.now().weekday() == 6:  # 6 é domingo
-                    gerar_relatorio_semanal()
-                break
-        else:
-            print("\nOpção inválida! Escolha um número de 1 a 5 ou '0' para sair.\n")
-
-# Função para gerar relatório semanal
 def gerar_relatorio_semanal():
-    print("\nGerando relatório semanal...\n")
-    
     arquivo_semanal = obter_arquivo_semanal()
-    
-    # Definir o intervalo da semana (últimos 7 dias)
     hoje = datetime.now()
     dias_semana = [(hoje - timedelta(days=i)) for i in range(7)]
-    dias_semana.reverse()  # Ordenar do primeiro ao último dia
-    
+    dias_semana.reverse()
+
     relatorio = {}
     for tarefa_id, descricao in tarefas.items():
         relatorio[tarefa_id] = {"descricao": descricao, "dias": {}}
-    
-    # Coletar dados de cada dia
+
     for data in dias_semana:
         arquivo_diario = obter_arquivo_diario(data)
-        dia_str = data.strftime('%A (%d/%m)')
-        
+        dia_str = data.strftime("%A (%d/%m)")
         if os.path.exists(arquivo_diario):
             respostas = carregar_progresso(arquivo_diario)
             for tarefa_id in tarefas.keys():
-                relatorio[tarefa_id]["dias"][dia_str] = respostas.get(tarefa_id, "Não registrado")
+                relatorio[tarefa_id]["dias"][dia_str] = respostas.get(
+                    tarefa_id, "Não registrado"
+                )
         else:
             for tarefa_id in tarefas.keys():
                 relatorio[tarefa_id]["dias"][dia_str] = "Não registrado"
-    
-    # Salvar relatório semanal
-    with open(arquivo_semanal, 'w', encoding='utf-8') as file:
+
+    with open(arquivo_semanal, "w", encoding="utf-8") as file:
         hoje = datetime.now()
-        inicio_semana = hoje - timedelta(days=hoje.weekday() + 1)  # -1 porque hoje é domingo
+        inicio_semana = hoje - timedelta(days=hoje.weekday())
         fim_semana = hoje
-        
-        file.write(f"RELATÓRIO SEMANAL ({inicio_semana.strftime('%d/%m/%Y')} a {fim_semana.strftime('%d/%m/%Y')})\n\n")
-        
+        file.write(
+            f"RELATÓRIO SEMANAL ({inicio_semana.strftime('%d/%m/%Y')} a {fim_semana.strftime('%d/%m/%Y')})\n\n"
+        )
         for tarefa_id, info in relatorio.items():
             file.write(f"Tarefa {tarefa_id}: {info['descricao']}\n\n")
-            
-            # Contar quantos "Sim" para a tarefa
             total_sim = sum(1 for status in info["dias"].values() if status == "Sim")
-            
             file.write(f"Progresso por dia:\n\n")
             for dia, status in info["dias"].items():
                 file.write(f"  - {dia}: {status}\n")
-            
             file.write(f"\nTotal de dias realizados: {total_sim}/7 dias\n\n")
-    
-    print(f"Relatório semanal gerado com sucesso: {arquivo_semanal}\n")
+    messagebox.showinfo("Sucesso", f"Relatório semanal gerado: {arquivo_semanal}")
 
-# Função para resetar o arquivo de texto diário
-def resetar_arquivo_diario():
+
+# Função principal para registrar tarefas
+def registrar_tarefas():
+    """Cria a janela para registrar tarefas diárias com 'Não' selecionado por padrão."""
+    janela_tarefas = tk.Toplevel(root)  # 'root' é a janela principal
+    janela_tarefas.title("Registrar Tarefas Diárias")
+    janela_tarefas.configure(bg="#F0F0F0")  # Fundo cinza claro
+
+    # Definir tamanho e centralizar a janela de tarefas
+    largura_tarefas = 680
+    altura_tarefas = 500
+    centralizar_janela(janela_tarefas, largura_tarefas, altura_tarefas)
+
+    # Título da janela
+    tk.Label(
+        janela_tarefas,
+        text="Registrar Tarefas Diárias",
+        bg="#F0F0F0",
+        fg="#333333",
+        font=("Helvetica", 16, "bold"),
+    ).pack(pady=10)
+
+    # Frame para as tarefas com borda e fundo branco
+    frame_tarefas = tk.Frame(janela_tarefas, bg="white", bd=2, relief="groove")
+    frame_tarefas.pack(pady=20, padx=20, fill="both", expand=True)
+
+    # Dicionário de tarefas
+    tarefas = {
+        "1": "Aplicar em vagas no LinkedIn para estágio e júnior em desenvolvedor full stack",
+        "2": "Aplicar em vagas no LinkedIn para estágio e júnior em desenvolvedor python",
+        "3": "Aplicar em vagas no LinkedIn para estágio e júnior em inteligência artificial",
+        "4": "Aplicar em vagas no LinkedIn para estágio em engenheiro de software",
+        "5": "Aplicar em vagas no Infojobs",
+        "6": "Aplicar em vagas no Vagas.com",
+        "7": "Aplicar em vagas no Programathor",
+    }
+
+    # Variáveis para os RadioButtons com 'Não' como padrão
+    vars_respostas = {}
+    for chave in tarefas.keys():
+        vars_respostas[chave] = tk.StringVar(value="Não")  # Sempre "Não" por padrão
+
+    # Exibir tarefas e RadioButtons
+    for i, (chave, tarefa) in enumerate(tarefas.items()):
+        tk.Label(
+            frame_tarefas,
+            text=f"{chave} - {tarefa}",
+            bg="white",
+            fg="#333333",
+            font=("Helvetica", 10),
+            wraplength=500,
+            justify="left",
+        ).grid(row=i, column=0, sticky="w", padx=10, pady=10)
+        radio_sim = tk.Radiobutton(
+            frame_tarefas,
+            text="Sim",
+            variable=vars_respostas[chave],
+            value="Sim",
+            bg="white",
+            fg="#333333",
+            font=("Helvetica", 10),
+        )
+        radio_nao = tk.Radiobutton(
+            frame_tarefas,
+            text="Não",
+            variable=vars_respostas[chave],
+            value="Não",
+            bg="white",
+            fg="#333333",
+            font=("Helvetica", 10),
+        )
+        radio_sim.grid(row=i, column=1, sticky="w", padx=10, pady=10)
+        radio_nao.grid(row=i, column=2, sticky="w", padx=10, pady=10)
+
+    # Frame para botões com fundo cinza claro
+    frame_botoes = tk.Frame(janela_tarefas, bg="#F0F0F0")
+    frame_botoes.pack(pady=20)
+
+    # Botões de ação
+    style = ttk.Style()
+    style.configure("TButton", font=("Helvetica", 10), padding=10)
+    ttk.Button(
+        frame_botoes,
+        text="Salvar Progresso",
+        command=lambda: salvar_progresso_interface(
+            obter_arquivo_diario(), vars_respostas
+        ),
+        style="TButton",
+    ).grid(row=0, column=0, padx=10)
+    ttk.Button(
+        frame_botoes,
+        text="Finalizar Planejamento",
+        command=lambda: finalizar_planejamento(
+            obter_arquivo_diario(), vars_respostas, janela_tarefas
+        ),
+        style="TButton",
+    ).grid(row=0, column=1, padx=10)
+
+
+def salvar_progresso_interface(arquivo_txt, vars_respostas):
+    """Salva o progresso parcial e exibe mensagem de sucesso."""
+    respostas = {chave: var.get() for chave, var in vars_respostas.items() if var.get()}
+    salvar_progresso(arquivo_txt, respostas)
+    messagebox.showinfo("Sucesso", "Progresso salvo com sucesso.")
+
+
+def finalizar_planejamento(arquivo_txt, vars_respostas, janela):
+    """Finaliza o planejamento diário, verifica se todas as tarefas foram respondidas."""
+    respostas = {chave: var.get() for chave, var in vars_respostas.items()}
+    if all(respostas.get(k, "") for k in tarefas.keys()):
+        salvar_progresso(arquivo_txt, respostas, finalizada=True)
+        messagebox.showinfo("Sucesso", "Planejamento diário finalizado com sucesso.")
+        if datetime.now().weekday() == 6:  # Domingo
+            gerar_relatorio_semanal()
+        janela.destroy()
+    else:
+        messagebox.showwarning("Aviso", "Preencha todas as tarefas antes de finalizar.")
+
+
+def resetar_planejamento():
     arquivo_txt = obter_arquivo_diario()
     if os.path.exists(arquivo_txt):
-        confirmar = input("\nTem certeza que deseja resetar o planejamento de hoje? Isso apagará todas as informações. (Sim/Não): ").strip().capitalize()
-        if confirmar == 'Sim':
+        if messagebox.askyesno(
+            "Confirmação",
+            "Tem certeza que deseja resetar o planejamento de hoje? Isso apagará todas as informações.",
+        ):
             os.remove(arquivo_txt)
-            print("\nPlanejamento diário resetado com sucesso.\n")
-        else:
-            print("\nOperação cancelada.\n")
+            messagebox.showinfo("Sucesso", "Planejamento diário resetado com sucesso.")
     else:
-        print("\nNão há planejamento para hoje para ser resetado.\n")
+        messagebox.showinfo(
+            "Informação", "Não há planejamento para hoje para ser resetado."
+        )
 
-# Função para gerar manualmente o relatório semanal
-def gerar_relatorio_manual():
-    confirmar = input("\nDeseja gerar o relatório semanal agora? (Sim/Não): ").strip().capitalize()
-    if confirmar == 'Sim':
+
+def gerar_relatorio():
+    if messagebox.askyesno("Confirmação", "Deseja gerar o relatório semanal agora?"):
         gerar_relatorio_semanal()
-    else:
-        print("\nOperação cancelada.\n")
 
-# Menu principal
-def menu():
-    print("\nMenu de Planejamento Diário\n")
-    print("1 - Registrar ou atualizar tarefas do dia")
-    print("2 - Resetar planejamento do dia")
-    print("3 - Gerar relatório semanal manualmente")
-    print("4 - Sair\n")
-    opcao = input("Escolha uma opção: ").strip()  
 
-    if opcao == '1':
-        registrar_tarefas_diarias()
-        menu()
-    elif opcao == '2':
-        resetar_arquivo_diario()
-        menu()
-    elif opcao == '3':
-        gerar_relatorio_manual()
-        menu()
-    elif opcao == '4':
-        print("\nSaindo...\n")
-    else:
-        print("\nOpção inválida!\n")
-        menu()
+# Função para centralizar a janela
+def centralizar_janela(janela, largura, altura):
+    """Centraliza a janela na tela com base em sua largura e altura."""
+    tela_largura = janela.winfo_screenwidth()  # Obtém a largura da tela
+    tela_altura = janela.winfo_screenheight()  # Obtém a altura da tela
+    x = (tela_largura - largura) // 2  # Calcula a posição x
+    y = (tela_altura - altura) // 2  # Calcula a posição y
+    janela.geometry(f"{largura}x{altura}+{x}+{y}")  # Define a geometria
 
-# Executar o menu
-if __name__ == "__main__":
-    menu()
+
+# Criar a janela principal
+root = tk.Tk()
+root.title("Planejamento Diário")
+root.configure(bg="#F0F0F0")
+root.resizable(True, True)
+
+# Definir tamanho e centralizar a janela principal
+largura_root = 400
+altura_root = 300
+centralizar_janela(root, largura_root, altura_root)
+
+# Adicionar ícone (descomente e ajuste o caminho conforme necessário)
+# root.iconbitmap('caminho/para/seu/icon.ico')
+
+# Frame para botões do menu
+frame_menu = tk.Frame(root, bg="#F0F0F0")
+frame_menu.pack(expand=True)
+
+# Botões do menu principal
+style = ttk.Style()
+style.configure("TButton", font=("Helvetica", 12), padding=10)
+ttk.Button(
+    frame_menu,
+    text="Registrar ou atualizar tarefas do dia",
+    command=registrar_tarefas,
+    style="TButton",
+).pack(pady=10)
+ttk.Button(
+    frame_menu,
+    text="Resetar planejamento do dia",
+    command=resetar_planejamento,
+    style="TButton",
+).pack(pady=10)
+ttk.Button(
+    frame_menu,
+    text="Gerar relatório semanal manualmente",
+    command=gerar_relatorio,
+    style="TButton",
+).pack(pady=10)
+ttk.Button(frame_menu, text="Sair", command=root.quit, style="TButton").pack(pady=10)
+
+# Executar o loop principal
+root.mainloop()
