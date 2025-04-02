@@ -197,7 +197,7 @@ def registrar_tarefas():
     style.configure("TButton", font=("Helvetica", 10), padding=10)
     ttk.Button(
         frame_botoes,
-        text="Salvar Progresso",
+        text="Salvar Registro Diário",
         command=lambda: salvar_progresso_interface(
             obter_arquivo_diario(), vars_respostas
         ),
@@ -286,23 +286,28 @@ style = ttk.Style()
 style.configure("TButton", font=("Helvetica", 12), padding=10)
 ttk.Button(
     frame_menu,
-    text="Registrar ou atualizar tarefas do dia",
+    text="Registrar ou Atualizar Tarefas do Dia",
     command=registrar_tarefas,
     style="TButton",
 ).pack(pady=10)
 ttk.Button(
     frame_menu,
-    text="Resetar planejamento do dia",
+    text="Resetar Planejamento do Dia",
     command=resetar_planejamento,
     style="TButton",
 ).pack(pady=10)
 ttk.Button(
     frame_menu,
-    text="Gerar relatório semanal manualmente",
+    text="Gerar Relatório Semanal Manualmente",
     command=gerar_relatorio,
     style="TButton",
 ).pack(pady=10)
-ttk.Button(frame_menu, text="Sair", command=root.quit, style="TButton").pack(pady=10)
+ttk.Button(
+    frame_menu, 
+    text="Fechar o Programa", 
+    command=root.quit, 
+    style="TButton",
+).pack(pady=10)
 
 # Executar o loop principal
 root.mainloop()
