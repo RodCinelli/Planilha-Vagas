@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 from datetime import datetime, timedelta
 import os
-from PIL import Image, ImageTk  # Para lidar com ícones
 
 # Definição da paleta de cores
 COR_PRINCIPAL = "#4682B4"  # Azul escuro para fundo
@@ -18,10 +17,9 @@ COR_LINHAS = "#F8FBFF"     # Azul muito claro para as linhas de tarefas
 pasta_planejamento = "planejamento"
 pasta_diario = os.path.join(pasta_planejamento, "diario")
 pasta_semanal = os.path.join(pasta_planejamento, "semanal")
-pasta_icones = "icones"  # Nova pasta para ícones
 
 # Criar pastas se não existirem
-for pasta in [pasta_planejamento, pasta_diario, pasta_semanal, pasta_icones]:
+for pasta in [pasta_planejamento, pasta_diario, pasta_semanal]:
     if not os.path.exists(pasta):
         os.makedirs(pasta)
 
@@ -175,7 +173,7 @@ def registrar_tarefas():
     janela_tarefas.configure(bg=COR_PRINCIPAL)
 
     # Definir tamanho e centralizar a janela de tarefas
-    largura_tarefas = 680
+    largura_tarefas = 690
     altura_tarefas = 460
     centralizar_janela(janela_tarefas, largura_tarefas, altura_tarefas)
 
@@ -211,6 +209,8 @@ def registrar_tarefas():
     # Adicionar padding à esquerda empurra o texto para a direita
     # (padding_esquerda, padding_direita)
     titulo_tarefas.pack(side=tk.LEFT, expand=True, fill=tk.X, pady=10, padx=(70, 0))
+    # Adicionar tooltip ao título
+    Tooltip(titulo_tarefas, "Local para registrar ou atualizar suas tarefas diárias de busca de emprego", COR_TOOLTIP, COR_TEXTO)
     
     # Adicionar relógio à janela de tarefas (à direita do header)
     data_hora = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
@@ -223,7 +223,7 @@ def registrar_tarefas():
     )
     lbl_relogio_tarefas.pack(side=tk.RIGHT, padx=15, pady=5)
     # Adicionar tooltip ao relógio
-    Tooltip(lbl_relogio_tarefas, "Data e hora atuais", COR_TOOLTIP, COR_TEXTO)
+    Tooltip(lbl_relogio_tarefas, "Data e hora atuais do sistema", COR_TOOLTIP, COR_TEXTO)
     
     # Função para atualizar o relógio nesta janela
     def atualizar_relogio_tarefas():
@@ -319,6 +319,7 @@ def registrar_tarefas():
         relief=tk.RAISED,
         activebackground=COR_DESTAQUE,
         activeforeground="white",
+        cursor="hand2"
     )
     btn_salvar.grid(row=0, column=0, padx=10)
     Tooltip(btn_salvar, "Salva seu progresso atual sem fechar a janela", COR_TOOLTIP, COR_TEXTO)
@@ -338,6 +339,7 @@ def registrar_tarefas():
         relief=tk.RAISED,
         activebackground=COR_DESTAQUE,
         activeforeground="white",
+        cursor="hand2"
     )
     btn_finalizar.grid(row=0, column=1, padx=10)
     Tooltip(btn_finalizar, "Finaliza e salva o planejamento do dia e fecha esta janela", COR_TOOLTIP, COR_TEXTO)
@@ -433,7 +435,6 @@ ttk.Separator(root, orient='horizontal').pack(fill='x', pady=10)
 frame_menu = tk.Frame(root, bg=COR_PRINCIPAL)
 frame_menu.pack(expand=True, pady=20)
 
-# Criar botões diretamente, como na janela de tarefas
 # Botão 1: Registrar Tarefas
 btn_registrar = tk.Button(
     frame_menu,
@@ -449,16 +450,8 @@ btn_registrar = tk.Button(
     activebackground=COR_DESTAQUE,
     activeforeground="white",
     width=30,
+    cursor="hand2"
 )
-# Tentar adicionar o ícone
-try:
-    icone_task = Image.open(os.path.join(pasta_icones, "task.png"))
-    icone_task = icone_task.resize((24, 24), Image.LANCZOS)
-    icone_task_tk = ImageTk.PhotoImage(icone_task)
-    btn_registrar.image = icone_task_tk
-    btn_registrar.config(image=icone_task_tk, compound=tk.LEFT)
-except Exception as e:
-    print(f"Erro ao carregar ícone task: {e}")
 btn_registrar.pack(pady=10, fill=tk.X)
 Tooltip(btn_registrar, "Abre uma nova janela para registrar ou atualizar suas tarefas diárias de busca de emprego", COR_TOOLTIP, COR_TEXTO)
 
@@ -477,16 +470,8 @@ btn_resetar = tk.Button(
     activebackground=COR_DESTAQUE,
     activeforeground="white",
     width=30,
+    cursor="hand2"
 )
-# Tentar adicionar o ícone
-try:
-    icone_reset = Image.open(os.path.join(pasta_icones, "reset.png"))
-    icone_reset = icone_reset.resize((24, 24), Image.LANCZOS)
-    icone_reset_tk = ImageTk.PhotoImage(icone_reset)
-    btn_resetar.image = icone_reset_tk
-    btn_resetar.config(image=icone_reset_tk, compound=tk.LEFT)
-except Exception as e:
-    print(f"Erro ao carregar ícone reset: {e}")
 btn_resetar.pack(pady=10, fill=tk.X)
 Tooltip(btn_resetar, "Apaga o planejamento do dia atual, permitindo que você comece novamente", COR_TOOLTIP, COR_TEXTO)
 
@@ -505,16 +490,8 @@ btn_relatorio = tk.Button(
     activebackground=COR_DESTAQUE,
     activeforeground="white",
     width=30,
+    cursor="hand2"
 )
-# Tentar adicionar o ícone
-try:
-    icone_report = Image.open(os.path.join(pasta_icones, "report.png"))
-    icone_report = icone_report.resize((24, 24), Image.LANCZOS)
-    icone_report_tk = ImageTk.PhotoImage(icone_report)
-    btn_relatorio.image = icone_report_tk
-    btn_relatorio.config(image=icone_report_tk, compound=tk.LEFT)
-except Exception as e:
-    print(f"Erro ao carregar ícone report: {e}")
 btn_relatorio.pack(pady=10, fill=tk.X)
 Tooltip(btn_relatorio, "Gera um relatório resumindo as tarefas realizadas durante a semana atual", COR_TOOLTIP, COR_TEXTO)
 
@@ -533,16 +510,8 @@ btn_fechar = tk.Button(
     activebackground=COR_DESTAQUE,
     activeforeground="white",
     width=30,
+    cursor="hand2"
 )
-# Tentar adicionar o ícone
-try:
-    icone_exit = Image.open(os.path.join(pasta_icones, "exit.png"))
-    icone_exit = icone_exit.resize((24, 24), Image.LANCZOS)
-    icone_exit_tk = ImageTk.PhotoImage(icone_exit)
-    btn_fechar.image = icone_exit_tk
-    btn_fechar.config(image=icone_exit_tk, compound=tk.LEFT)
-except Exception as e:
-    print(f"Erro ao carregar ícone exit: {e}")
 btn_fechar.pack(pady=10, fill=tk.X)
 Tooltip(btn_fechar, "Encerra o programa de planejamento diário", COR_TOOLTIP, COR_TEXTO)
 
@@ -552,14 +521,14 @@ rodape_frame.pack(side=tk.BOTTOM, fill=tk.X, pady=10)
 
 rodape_texto = tk.Label(
     rodape_frame,
-    text="© 2025 Sistema de Planejamento | Versão 2.0",
+    text="© 2025 Sistema de Planejamento | Emprego",
     font=("Helvetica", 8),
     bg=COR_PRINCIPAL,
     fg=COR_TEXTO
 )
 rodape_texto.pack()
 # Adicionar tooltip ao rodapé
-Tooltip(rodape_texto, "Sistema desenvolvido para auxiliar no planejamento diário de busca de emprego", COR_TOOLTIP, COR_TEXTO)
+# Tooltip(rodape_texto, "Sistema desenvolvido para auxiliar no planejamento diário de busca de emprego", COR_TOOLTIP, COR_TEXTO)
 
 # Verificar se há planejamento para hoje
 arquivo_hoje = obter_arquivo_diario()
