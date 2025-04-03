@@ -105,10 +105,10 @@ Se você deseja alterar as tarefas pré-definidas:
 ```python
 # Cabeçalho das tarefas
 tarefas = {
-    "1": "Sua primeira tarefa personalizada aqui",
-    "2": "Sua segunda tarefa personalizada aqui",
-    # Adicione mais tarefas se necessário
-    "8": "Uma tarefa adicional",  # Você pode adicionar novas tarefas
+   "1": "Sua primeira tarefa personalizada aqui",
+   "2": "Sua segunda tarefa personalizada aqui",
+   # Adicione mais tarefas se necessário
+   "8": "Uma tarefa adicional",  # Você pode adicionar novas tarefas
 }
 ```
 
