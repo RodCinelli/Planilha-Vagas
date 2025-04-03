@@ -397,7 +397,7 @@ root.resizable(True, True)
 
 # Definir tamanho e centralizar a janela principal
 largura_root = 450
-altura_root = 450
+altura_root = 500
 centralizar_janela(root, largura_root, altura_root)
 
 # Título da aplicação na janela principal
