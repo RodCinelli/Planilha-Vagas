@@ -13,6 +13,8 @@ Um sistema simples e eficiente para acompanhar suas tarefas diárias relacionada
 - **Relatório Semanal**: Gere relatórios para acompanhar seu progresso ao longo da semana.
 - **Interface Intuitiva**: Design amigável com cores suaves e tooltips informativos.
 - **Salvamento Automático**: Seus registros são automaticamente salvos em arquivos de texto para consultas futuras.
+- **Indicador de Status**: Mostra claramente se o planejamento do dia está pendente, iniciado ou concluído.
+- **Atualização Automática**: Detecta automaticamente a mudança de dia e atualiza o status do planejamento.
 
 ## Instalação para Usuários sem Experiência em Programação
 
@@ -48,12 +50,10 @@ Após baixar o programa, você precisa instalar as bibliotecas necessárias:
 
 1. Abra o Prompt de Comando (Windows) ou Terminal (Mac/Linux)
 2. Navegue até a pasta onde o programa foi extraído/clonado:
-
    ```
    cd caminho/para/Planilha-Vagas
    ```
 3. Instale as dependências:
-
    ```
    pip install tkinter
    ```
@@ -72,19 +72,26 @@ Após a instalação:
 
 ### Tela Principal
 
-A tela principal apresenta quatro opções:
+A tela principal apresenta quatro opções principais e um indicador de status na parte inferior:
 
 - **Registrar ou Atualizar Tarefas**: Abre uma nova janela para marcar as tarefas realizadas no dia.
 - **Resetar Planejamento do Dia**: Apaga os registros do dia atual para começar novamente.
 - **Gerar Relatório Semanal**: Cria um arquivo de texto com um resumo das atividades da semana.
 - **Fechar o Programa**: Encerra a aplicação.
 
+O **Indicador de Status** na parte inferior da janela mostra um dos seguintes estados:
+- **Sem planejamento hoje**: Você ainda não iniciou o planejamento para o dia atual.
+- **Planejamento iniciado**: Você já começou a registrar tarefas, mas ainda não finalizou o planejamento.
+- **Planejamento diário concluído**: Você completou o planejamento para o dia atual.
+
 ### Registrando Tarefas
 
 1. Clique em "Registrar ou Atualizar Tarefas"
 2. Para cada atividade listada, selecione "Sim" se você a realizou ou "Não" caso contrário
 3. Clique em "Salvar Registro Diário" para guardar seu progresso parcial
+   - O status será atualizado para "Planejamento iniciado"
 4. Quando terminar, clique em "Finalizar Planejamento" para completar o registro do dia
+   - O status será atualizado para "Planejamento diário concluído"
 
 ### Relatórios
 
@@ -119,19 +126,19 @@ tarefas = {
 Se você adicionou mais tarefas e precisa de uma janela maior:
 
 1. Abra o arquivo `planejamento_diario.py` em um editor de texto
-2. Para ajustar o tamanho da janela principal, localize as linhas (aproximadamente linha 340):
+2. Para ajustar o tamanho da janela principal, localize as linhas (aproximadamente linha 414):
 
 ```python
 # Definir tamanho e centralizar a janela principal
 largura_root = 450  # Modifique este valor para aumentar a largura
-altura_root = 450   # Modifique este valor para aumentar a altura
+altura_root = 500   # Modifique este valor para aumentar a altura
 ```
 
-3. Para ajustar o tamanho da janela de tarefas, localize as linhas (aproximadamente linha 204):
+3. Para ajustar o tamanho da janela de tarefas, localize as linhas (aproximadamente linha 175):
 
 ```python
 # Definir tamanho e centralizar a janela de tarefas
-largura_tarefas = 680  # Modifique este valor para aumentar a largura
+largura_tarefas = 690  # Modifique este valor para aumentar a largura
 altura_tarefas = 460   # Modifique este valor para aumentar a altura
 ```
 
@@ -178,6 +185,25 @@ Se você deseja criar um arquivo executável (.exe) para não precisar do Python
 4. Após a conversão, um arquivo executável será criado no diretório de saída especificado
 
 5. Agora você pode compartilhar este arquivo .exe com qualquer pessoa, e elas poderão executá-lo sem ter o Python instalado
+
+## Recursos Avançados
+
+### Atualização Automática do Status
+
+O sistema verifica automaticamente a mudança de dia e atualiza o status do planejamento:
+
+- A cada minuto, o programa verifica se o dia mudou
+- Quando um novo dia começa, o status é automaticamente atualizado para "Sem planejamento hoje"
+- Não é necessário reiniciar o programa para que o status seja atualizado
+
+### Arquivos Salvos
+
+O sistema organiza seus dados em uma estrutura clara:
+
+- **Planejamentos diários**: Salvos em `planejamento/diario/` com o formato `planejamento_YYYY-MM-DD_DiaDaSemana.txt`
+- **Relatórios semanais**: Salvos em `planejamento/semanal/` com o formato `relatorio_semanal_YYYY-MM-DD_YYYY-MM-DD.txt`
+
+Os arquivos diários contêm uma marcação especial "CONCLUÍDO" quando você finaliza o planejamento do dia, o que permite ao sistema exibir o status correto mesmo após reiniciar o programa.
 
 ## Solução de Problemas
 
