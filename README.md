@@ -2,7 +2,10 @@
 
 Um sistema simples e eficiente para acompanhar suas tarefas diárias relacionadas à busca de emprego. Este aplicativo permite registrar, acompanhar e analisar o seu progresso diário em diferentes atividades de procura de trabalho.
 
-![Sistema de Planejamento](https://github.com/RodCinelli/Planilha-Vagas/raw/main/screenshots/tela_principal.png)
+<div style="display: flex; justify-content: space-between;">
+   <img src="./screenshots/tela_inicial.png" alt="Tela Inicial do Sistema" width="49%" />
+   <img src="./screenshots/tela_tarefas.png" alt="Tela de Tarefas" width="49%" />
+</div>
 
 ## Principais Funcionalidades
 
