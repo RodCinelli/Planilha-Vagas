@@ -106,7 +106,7 @@ O **Indicador de Status** na parte inferior da janela mostra um dos seguintes es
 Se você deseja alterar as tarefas pré-definidas:
 
 1. Abra o arquivo `planejamento_diario.py` em qualquer editor de texto (Notepad, VSCode, etc.)
-2. Localize o bloco de código que começa com `# Cabeçalho das tarefas` (aproximadamente linha 38)
+2. Localize o bloco de código que começa com `# Cabeçalho das tarefas` (aproximadamente linha 26)
 3. Modifique as descrições das tarefas conforme sua necessidade:
 
 ```python
@@ -149,7 +149,7 @@ altura_tarefas = 460   # Modifique este valor para aumentar a altura
 Se você quiser personalizar as cores:
 
 1. Abra o arquivo `planejamento_diario.py` em um editor de texto
-2. Localize o bloco de código que começa com `# Definição da paleta de cores` (aproximadamente linha 7)
+2. Localize o bloco de código que começa com `# Definição da paleta de cores` (aproximadamente linha 6)
 3. Modifique os códigos de cores conforme desejado:
 
 ```python
