@@ -5,13 +5,13 @@ import os
 
 # Definição da paleta de cores
 COR_PRINCIPAL = "#4682B4"  # Azul escuro para fundo
-COR_DESTAQUE = "#4DA6FF"   # Azul médio para elementos de destaque
-COR_TEXTO = "#333333"      # Cinza escuro para textos
-COR_BORDA = "#99CCFF"      # Azul claro para bordas
-COR_BOTAO = "#CCE5FF"      # Azul muito claro para botões
-COR_RELOGIO = "#FFFD54"    # Amarelo vibrante claro para o relógio
-COR_TOOLTIP = "#FFFD54"    # Amarelo vibrante claro para tooltips
-COR_LINHAS = "#F8FBFF"     # Azul muito claro para as linhas de tarefas
+COR_DESTAQUE = "#4DA6FF"  # Azul médio para elementos de destaque
+COR_TEXTO = "#333333"  # Cinza escuro para textos
+COR_BORDA = "#99CCFF"  # Azul claro para bordas
+COR_BOTAO = "#CCE5FF"  # Azul muito claro para botões
+COR_RELOGIO = "#FFFD54"  # Amarelo vibrante claro para o relógio
+COR_TOOLTIP = "#FFFD54"  # Amarelo vibrante claro para tooltips
+COR_LINHAS = "#F8FBFF"  # Azul muito claro para as linhas de tarefas
 
 # Estrutura de pastas
 pasta_planejamento = "planejamento"
@@ -109,7 +109,7 @@ def salvar_progresso(arquivo_txt, respostas, finalizada=False):
         data_atual = datetime.now().strftime("%d/%m/%Y")
         dia_semana = datetime.now().strftime("%A")
         if finalizada:
-            file.write(f"Planejamento Diário - {dia_semana} ({data_atual})\n\n")
+            file.write(f"Planejamento Diário CONCLUÍDO - {dia_semana} ({data_atual})\n\n")
         else:
             file.write(
                 f"Planejamento Diário (Progresso Parcial) - {dia_semana} ({data_atual})\n\n"
@@ -322,7 +322,7 @@ def registrar_tarefas():
         cursor="hand2"
     )
     btn_salvar.grid(row=0, column=0, padx=10)
-    Tooltip(btn_salvar, "Salva seu progresso atual sem fechar a janela", COR_TOOLTIP, COR_TEXTO)
+    Tooltip(btn_salvar, "Salva seu progresso atual sem fechara janela", COR_TOOLTIP, COR_TEXTO)
     
     btn_finalizar = tk.Button(
         frame_botoes,
@@ -344,14 +344,28 @@ def registrar_tarefas():
     btn_finalizar.grid(row=0, column=1, padx=10)
     Tooltip(btn_finalizar, "Finaliza e salva o planejamento do dia e fecha esta janela", COR_TOOLTIP, COR_TEXTO)
 
+# Função para atualizar o status do planejamento
+def atualizar_status():
+    arquivo_hoje = obter_arquivo_diario()
+    if os.path.exists(arquivo_hoje):
+        with open(arquivo_hoje, "r", encoding="utf-8") as file:
+            primeira_linha = file.readline().strip()
+            if "CONCLUÍDO" in primeira_linha:
+                status_lbl.config(text="Status: Planejamento diário concluído")
+            else:
+                status_lbl.config(text="Status: Planejamento iniciado")
+    else:
+        status_lbl.config(text="Status: Sem planejamento hoje")
+
 def salvar_progresso_interface(arquivo_txt, vars_respostas):
-    """Salva o progresso parcial e exibe mensagem de sucesso."""
+    """Salva o progresso parcial e mantém o status como 'Planejamento iniciado'."""
     respostas = {chave: var.get() for chave, var in vars_respostas.items() if var.get()}
-    salvar_progresso(arquivo_txt, respostas)
+    salvar_progresso(arquivo_txt, respostas)  # finalizada=False por padrão
     messagebox.showinfo("Sucesso", "Progresso salvo com sucesso.")
+    atualizar_status()
 
 def finalizar_planejamento(arquivo_txt, vars_respostas, janela):
-    """Finaliza o planejamento diário, verifica se todas as tarefas foram respondidas."""
+    """Finaliza o planejamento diário e muda o status para 'Planejamento diário concluído'."""
     respostas = {chave: var.get() for chave, var in vars_respostas.items()}
     if all(respostas.get(k, "") for k in tarefas.keys()):
         salvar_progresso(arquivo_txt, respostas, finalizada=True)
@@ -359,6 +373,7 @@ def finalizar_planejamento(arquivo_txt, vars_respostas, janela):
         if datetime.now().weekday() == 6:  # Domingo
             gerar_relatorio_semanal()
         janela.destroy()
+        atualizar_status()
     else:
         messagebox.showwarning("Aviso", "Preencha todas as tarefas antes de finalizar.")
 
@@ -371,6 +386,7 @@ def resetar_planejamento():
         ):
             os.remove(arquivo_txt)
             messagebox.showinfo("Sucesso", "Planejamento diário resetado com sucesso.")
+            atualizar_status()  # Atualiza o status após resetar
     else:
         messagebox.showinfo(
             "Informação", "Não há planejamento para hoje para ser resetado."
@@ -531,17 +547,34 @@ rodape_texto.pack()
 # Tooltip(rodape_texto, "Sistema desenvolvido para auxiliar no planejamento diário de busca de emprego", COR_TOOLTIP, COR_TEXTO)
 
 # Verificar se há planejamento para hoje
+global status_lbl
 arquivo_hoje = obter_arquivo_diario()
 status_lbl = tk.Label(
     root,
-    text=f"Status: {'Planejamento iniciado' if os.path.exists(arquivo_hoje) else 'Sem planejamento hoje'}",
+    text="Status: Carregando...",
     bg=COR_PRINCIPAL,
     fg=COR_TEXTO,
     font=("Helvetica", 10)
 )
 status_lbl.pack(side=tk.BOTTOM, pady=5)
 # Adicionar tooltip ao status
-Tooltip(status_lbl, "Indica se você já iniciou o planejamento para o dia de hoje", COR_TOOLTIP, COR_TEXTO)
+Tooltip(status_lbl, "Indica o status do planejamento para o dia de hoje", COR_TOOLTIP, COR_TEXTO)
+
+# Atualizar status inicial
+atualizar_status()
+
+# Iniciar verificação de mudança de dia
+data_atual = datetime.now().date()
+
+def verificar_mudanca_dia():
+    global data_atual
+    nova_data = datetime.now().date()
+    if nova_data != data_atual:
+        data_atual = nova_data
+        atualizar_status()
+    root.after(60000, verificar_mudanca_dia)  # Verifica a cada 60 segundos
+
+verificar_mudanca_dia()
 
 # Executar o loop principal
 root.mainloop()
