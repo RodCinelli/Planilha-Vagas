@@ -183,17 +183,17 @@ def registrar_tarefas():
     
     # Botão de voltar (seta)
     btn_voltar = tk.Button(
-        header_frame,
-        text="←",
-        font=("Arial", 16, "bold"),
-        bg=COR_PRINCIPAL,
-        fg=COR_TEXTO,
-        relief=tk.FLAT,
-        bd=0,
-        activebackground=COR_PRINCIPAL,
-        activeforeground=COR_TEXTO,
-        command=janela_tarefas.destroy,
-        cursor="hand2"
+    header_frame,
+    text="←",
+    font=("Arial", 16, "bold"),
+    bg=COR_PRINCIPAL,
+    fg=COR_RELOGIO,
+    relief=tk.FLAT,
+    bd=0,
+    activebackground=COR_PRINCIPAL,
+    activeforeground=COR_RELOGIO,
+    command=janela_tarefas.destroy,
+    cursor="hand2"
     )
     btn_voltar.pack(side=tk.LEFT, padx=10)
     Tooltip(btn_voltar, "Voltar para a janela principal", COR_TOOLTIP, COR_TEXTO)
@@ -208,7 +208,7 @@ def registrar_tarefas():
     )
     # Adicionar padding à esquerda empurra o texto para a direita
     # (padding_esquerda, padding_direita)
-    titulo_tarefas.pack(side=tk.LEFT, expand=True, fill=tk.X, pady=10, padx=(70, 0))
+    titulo_tarefas.pack(side=tk.LEFT, expand=True, fill=tk.X, pady=10, padx=(50, 0))
     # Adicionar tooltip ao título
     Tooltip(titulo_tarefas, "Local para registrar ou atualizar suas tarefas diárias de busca de emprego", COR_TOOLTIP, COR_TEXTO)
     
