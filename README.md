@@ -50,10 +50,12 @@ Após baixar o programa, você precisa instalar as bibliotecas necessárias:
 
 1. Abra o Prompt de Comando (Windows) ou Terminal (Mac/Linux)
 2. Navegue até a pasta onde o programa foi extraído/clonado:
+
    ```
    cd caminho/para/Planilha-Vagas
    ```
 3. Instale as dependências:
+
    ```
    pip install tkinter
    ```
@@ -63,6 +65,7 @@ Após baixar o programa, você precisa instalar as bibliotecas necessárias:
 Após a instalação:
 
 1. Ainda no Prompt de Comando/Terminal:
+
    ```
    python planejamento_diario.py
    ```
