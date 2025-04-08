@@ -92,8 +92,11 @@ O **Indicador de Status** na parte inferior da janela mostra um dos seguintes es
 1. Clique em "Registrar ou Atualizar Tarefas"
 2. Para cada atividade listada, selecione "Sim" se você a realizou ou "Não" caso contrário
 3. Clique em "Salvar Registro Diário" para guardar seu progresso parcial
+
    - O status será atualizado para "Planejamento iniciado"
+
 4. Quando terminar, clique em "Finalizar Planejamento" para completar o registro do dia
+
    - O status será atualizado para "Planejamento diário concluído"
 
 ### Relatórios
