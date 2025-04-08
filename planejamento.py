@@ -56,7 +56,7 @@ relatorio_icon = tk.PhotoImage(file="imagens/relatorio.png")
 fechar_icon = tk.PhotoImage(file="imagens/fechar.png")
 salvar_icon = tk.PhotoImage(file="imagens/salvar.png")
 finalizar_icon = tk.PhotoImage(file="imagens/finalizar.png")
-voltar_icon = tk.PhotoImage(file="imagens/voltar.png")
+voltar_icon = tk.PhotoImage(file="imagens/voltar.png").zoom(2, 2)  # Aumenta o ícone em 2x
 
 # Classe Tooltip
 class Tooltip:
@@ -191,20 +191,16 @@ def registrar_tarefas():
     
     btn_voltar = tk.Button(
         header_frame,
-        text="←",
-        image=voltar_icon,
-        compound=tk.LEFT,
-        font=("Arial", 16, "bold"),
+        image=voltar_icon,  # Apenas o ícone, sem texto
         bg=COR_PRINCIPAL,
-        fg=COR_TEXTO,
         relief=tk.FLAT,
         bd=0,
         activebackground=COR_PRINCIPAL,
-        activeforeground=COR_TEXTO,
         command=janela_tarefas.destroy,
-        cursor="hand2"
+        cursor="hand2",
+        padx=10  # Espaço interno simétrico
     )
-    btn_voltar.pack(side=tk.LEFT, padx=10)
+    btn_voltar.pack(side=tk.LEFT, padx=(15, 5))  # Mais espaço à esquerda (15) e menos à direita (5) para mover o botão para a direita
     Tooltip(btn_voltar, "Voltar para a janela principal", COR_TOOLTIP, COR_TEXTO)
 
     titulo_tarefas = tk.Label(
@@ -404,107 +400,84 @@ frame_menu.pack(expand=True, pady=20)
 # Botão "Registrar ou Atualizar Tarefas"
 btn_registrar = tk.Button(
     frame_menu,
+    text="   Registrar ou Atualizar Tarefas   ",
+    image=registrar_icon,
+    compound=tk.LEFT,
+    command=registrar_tarefas,
     bg=COR_BOTAO,
+    fg=COR_TEXTO,
+    font=("Helvetica", 12),
+    padx=15,
+    pady=8,
     bd=1,
     relief=tk.RAISED,
     activebackground=COR_DESTAQUE,
     activeforeground="white",
-    cursor="hand2",
-    command=registrar_tarefas
+    cursor="hand2"
 )
-# Frame interno para o ícone e o texto
-frame_registrar_inner = tk.Frame(btn_registrar, bg=COR_BOTAO)
-frame_registrar_inner.pack(fill=tk.X, padx=5, pady=5)
-# Ícone
-label_registrar_icon = tk.Label(frame_registrar_inner, image=registrar_icon, bg=COR_BOTAO)
-label_registrar_icon.pack(side=tk.LEFT, padx=(5, 10))  # Ajuste o padx para mover o ícone para a esquerda
-# Texto
-label_registrar_text = tk.Label(
-    frame_registrar_inner,
-    text="Registrar ou Atualizar Tarefas",
-    bg=COR_BOTAO,
-    fg=COR_TEXTO,
-    font=("Helvetica", 12)
-)
-label_registrar_text.pack(side=tk.LEFT)
 btn_registrar.pack(pady=10, fill=tk.X)
 Tooltip(btn_registrar, "Abre uma nova janela para registrar ou atualizar suas tarefas diárias de busca de emprego", COR_TOOLTIP, COR_TEXTO)
 
 # Botão "Resetar Planejamento do Dia"
 btn_resetar = tk.Button(
     frame_menu,
+    text="   Resetar Planejamento do Dia   ",
+    image=resetar_icon,
+    compound=tk.LEFT,
+    command=resetar_planejamento,
     bg=COR_BOTAO,
+    fg=COR_TEXTO,
+    font=("Helvetica", 12),
+    padx=15,
+    pady=8,
     bd=1,
     relief=tk.RAISED,
     activebackground=COR_DESTAQUE,
     activeforeground="white",
-    cursor="hand2",
-    command=resetar_planejamento
+    cursor="hand2"
 )
-frame_resetar_inner = tk.Frame(btn_resetar, bg=COR_BOTAO)
-frame_resetar_inner.pack(fill=tk.X, padx=5, pady=5)
-label_resetar_icon = tk.Label(frame_resetar_inner, image=resetar_icon, bg=COR_BOTAO)
-label_resetar_icon.pack(side=tk.LEFT, padx=(5, 10))
-label_resetar_text = tk.Label(
-    frame_resetar_inner,
-    text="Resetar Planejamento do Dia",
-    bg=COR_BOTAO,
-    fg=COR_TEXTO,
-    font=("Helvetica", 12)
-)
-label_resetar_text.pack(side=tk.LEFT)
 btn_resetar.pack(pady=10, fill=tk.X)
 Tooltip(btn_resetar, "Apaga o planejamento do dia atual, permitindo que você comece novamente", COR_TOOLTIP, COR_TEXTO)
 
 # Botão "Gerar Relatório Semanal"
 btn_relatorio = tk.Button(
     frame_menu,
+    text="   Gerar Relatório Semanal   ",
+    image=relatorio_icon,
+    compound=tk.LEFT,
+    command=gerar_relatorio,
     bg=COR_BOTAO,
+    fg=COR_TEXTO,
+    font=("Helvetica", 12),
+    padx=15,
+    pady=8,
     bd=1,
     relief=tk.RAISED,
     activebackground=COR_DESTAQUE,
     activeforeground="white",
-    cursor="hand2",
-    command=gerar_relatorio
+    cursor="hand2"
 )
-frame_relatorio_inner = tk.Frame(btn_relatorio, bg=COR_BOTAO)
-frame_relatorio_inner.pack(fill=tk.X, padx=5, pady=5)
-label_relatorio_icon = tk.Label(frame_relatorio_inner, image=relatorio_icon, bg=COR_BOTAO)
-label_relatorio_icon.pack(side=tk.LEFT, padx=(5, 10))
-label_relatorio_text = tk.Label(
-    frame_relatorio_inner,
-    text="Gerar Relatório Semanal",
-    bg=COR_BOTAO,
-    fg=COR_TEXTO,
-    font=("Helvetica", 12)
-)
-label_relatorio_text.pack(side=tk.LEFT)
 btn_relatorio.pack(pady=10, fill=tk.X)
 Tooltip(btn_relatorio, "Gera um relatório resumindo as tarefas realizadas durante a semana atual", COR_TOOLTIP, COR_TEXTO)
 
 # Botão "Fechar o Programa"
 btn_fechar = tk.Button(
     frame_menu,
+    text="   Fechar o Programa   ",
+    image=fechar_icon,
+    compound=tk.LEFT,
+    command=root.quit,
     bg=COR_BOTAO,
+    fg=COR_TEXTO,
+    font=("Helvetica", 12),
+    padx=15,
+    pady=8,
     bd=1,
     relief=tk.RAISED,
     activebackground=COR_DESTAQUE,
     activeforeground="white",
-    cursor="hand2",
-    command=root.quit
+    cursor="hand2"
 )
-frame_fechar_inner = tk.Frame(btn_fechar, bg=COR_BOTAO)
-frame_fechar_inner.pack(fill=tk.X, padx=5, pady=5)
-label_fechar_icon = tk.Label(frame_fechar_inner, image=fechar_icon, bg=COR_BOTAO)
-label_fechar_icon.pack(side=tk.LEFT, padx=(5, 10))
-label_fechar_text = tk.Label(
-    frame_fechar_inner,
-    text="Fechar o Programa",
-    bg=COR_BOTAO,
-    fg=COR_TEXTO,
-    font=("Helvetica", 12)
-)
-label_fechar_text.pack(side=tk.LEFT)
 btn_fechar.pack(pady=10, fill=tk.X)
 Tooltip(btn_fechar, "Encerra o programa de planejamento diário", COR_TOOLTIP, COR_TEXTO)
 
