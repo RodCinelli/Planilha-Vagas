@@ -111,8 +111,8 @@ O **Indicador de Status** na parte inferior da janela mostra um dos seguintes es
 
 Se você deseja alterar as tarefas pré-definidas:
 
-1. Abra o arquivo `planejamento_diario.py` em qualquer editor de texto (Notepad, VSCode, etc.)
-2. Localize o bloco de código que começa com `# Cabeçalho das tarefas` (aproximadamente linha 26)
+1. Abra o arquivo `planejamento.py` em qualquer editor de texto (Notepad, VSCode, etc.)
+2. Localize o bloco de código que começa com `# Cabeçalho das tarefas` (aproximadamente linha 41)
 3. Modifique as descrições das tarefas conforme sua necessidade:
 
 ```python
@@ -131,8 +131,8 @@ tarefas = {
 
 Se você adicionou mais tarefas e precisa de uma janela maior:
 
-1. Abra o arquivo `planejamento_diario.py` em um editor de texto
-2. Para ajustar o tamanho da janela principal, localize as linhas (aproximadamente linha 414):
+1. Abra o arquivo `planejamento.py` em qualquer editor de texto (Notepad, VSCode, etc.)
+2. Para ajustar o tamanho da janela principal, localize as linhas (aproximadamente linha 421):
 
 ```python
 # Definir tamanho e centralizar a janela principal
@@ -140,7 +140,7 @@ largura_root = 450  # Modifique este valor para aumentar a largura
 altura_root = 500   # Modifique este valor para aumentar a altura
 ```
 
-3. Para ajustar o tamanho da janela de tarefas, localize as linhas (aproximadamente linha 175):
+3. Para ajustar o tamanho da janela de tarefas, localize as linhas (aproximadamente linha 194):
 
 ```python
 # Definir tamanho e centralizar a janela de tarefas
@@ -154,8 +154,8 @@ altura_tarefas = 460   # Modifique este valor para aumentar a altura
 
 Se você quiser personalizar as cores:
 
-1. Abra o arquivo `planejamento_diario.py` em um editor de texto
-2. Localize o bloco de código que começa com `# Definição da paleta de cores` (aproximadamente linha 6)
+1. Abra o arquivo `planejamento.py` em qualquer editor de texto (Notepad, VSCode, etc.)
+2. Localize o bloco de código que começa com `# Definição da paleta de cores` (aproximadamente linha 21)
 3. Modifique os códigos de cores conforme desejado:
 
 ```python
@@ -182,7 +182,7 @@ Se você deseja criar um arquivo executável (.exe) para não precisar do Python
    ```
 
 3. Na interface gráfica que se abrirá:
-   - Em "Script Location", selecione o arquivo `planejamento_diario.py`
+   - Em "Script Location", selecione o arquivo `planejamento.py`
    - Em "Onefile", selecione "One File" para criar um único executável
    - Em "Console Window", selecione "Window Based" para ocultar a janela de console
    - Em "Additional Files", adicione a pasta "planejamento" se desejar incluí-la no executável
