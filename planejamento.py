@@ -322,7 +322,7 @@ def registrar_tarefas():
         cursor="hand2"
     )
     btn_salvar.grid(row=0, column=0, padx=10)
-    Tooltip(btn_salvar, "Salva seu progresso atual sem fechara janela", COR_TOOLTIP, COR_TEXTO)
+    Tooltip(btn_salvar, "Salva seu progresso atual sem fechar a janela", COR_TOOLTIP, COR_TEXTO)
     
     btn_finalizar = tk.Button(
         frame_botoes,
